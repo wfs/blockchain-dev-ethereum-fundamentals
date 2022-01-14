@@ -5,18 +5,15 @@
 // -- Step 1: Set up the appropriate configuration
 var Web3 = require("web3");
 
-//var EthereumTransaction = require("ethereumjs-tx")
 var EthereumTransaction = require("@ethereumjs/tx");
-//import { Transaction } from "@ethereumjs/tx";
-//import Common from "@ethereumjs/common";
 // https://github.com/ethereumjs/ethereumjs-monorepo/blob/master/packages/tx/README.md
 // https://github.com/ethereumjs/ethereumjs-monorepo/blob/master/packages/tx/docs/README.md
 
 var web3 = new Web3("HTTP://127.0.0.1:7545"); // 8545 if using ganache-cli
 
 // -- Step 2: Set the sending and receiving addresses for the transaction.
-var sendingAddress = "0xD57155Af37851AeFA918A7A61bD8c6b140367324"; // "Account 0 ui" in Metamask
-var receivingAddress = "0xa55B941a5afEF0dD05D1C6a67Be7F0Aa2a1d5F93"; // "Account 1 ui" in Metamask
+var sendingAddress = "0x7BF62A7e1fB091c6BE65ced3Dd7fBe60cb4f255f"; // "Account 0 ganache ui" in Metamask
+var receivingAddress = "0x55A43129A63408f8Ea9EFb4E0dD15FEfdC83d5Cd"; // "Account 1 ganache ui" in Metamask
 
 // -- Step 3: Check the balances of each address
 console.log("sendingAddress current balance ...");
@@ -53,12 +50,9 @@ web3.eth.getBalance(receivingAddress).then(console.log);
 
 // -- Step 7: Sign the transaction with the Hex value of the private key of the sender
 var privateKeySender =
-  "95ab81243a99d28b4b6cfbb0831bef0106028d8bf5d9dc2b5509e36b82252cfe"; // "Account 0 ui" in Metamask
+  "67cb5b9ff00af340fa02eebf1381378bbf7d71d52f0db6e6c47182e6a76e9c51"; // "Account 0 ganache ui" in Metamask
 var privateKeySenderHex = new Buffer.from(privateKeySender, "hex"); // https://nodejs.org/en/docs/guides/buffer-constructor-deprecation/
-//var transaction = new EthereumTransaction(rawTransaction);
 var tx = EthereumTransaction.Transaction.fromTxData(rawTransaction);
-//const tx = transaction.fromTxData(rawTransaction);
-//transaction.sign(privateKeySenderHex);
 var signedTx = tx.sign(privateKeySenderHex);
 
 /*#######################################
@@ -66,6 +60,5 @@ var signedTx = tx.sign(privateKeySenderHex);
 #######################################*/
 
 // -- Step 8: Send the serialized signed transaction to the Ethereum network.
-//var serializedTransaction = transaction.serialize();
 var serializedTransaction = signedTx.serialize();
 web3.eth.sendSignedTransaction(serializedTransaction);
